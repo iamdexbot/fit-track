@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,21 +7,56 @@
 <title>FitTrack Pro v2</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* ── DARK THEME (default) ── */
 :root {
   --bg:#0c0f1a; --bg2:#12172a; --bg3:#1a2038;
   --card:#1e2540; --card2:#242d4f; --border:#2c3a5e;
   --g:#05e87a; --b:#38b6ff; --r:#ff5f6d; --y:#ffcc44; --p:#b57bee; --o:#ff9a3c;
   --txt:#eef2ff; --txt2:#7a89aa; --txt3:#3a4a6a;
   --r8:8px; --r12:12px; --r16:16px;
+  --shell-bg:#0c0f1a; --shell-wrap-bg:radial-gradient(ellipse at 30% 20%,#1a1060 0%,#060810 60%);
+  --shell-border:#2a2a4a; --shell-ring1:#0a0a18; --shell-ring2:#1e1e36;
+  --tabbar-bg:rgba(18,23,42,.96);
+  --grad-g-from:#0a2a1e; --grad-b-from:#0a1e3a; --grad-r-from:#2a0a14;
+  --grad-y-from:#2a1e0a; --grad-o-from:#2a1a0a; --grad-p-from:#1e0a2a;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
+/* ── LIGHT THEME ── */
+[data-theme="light"] {
+  --bg:#f0f4ff; --bg2:#e4eaf8; --bg3:#d8e0f0;
+  --card:#ffffff; --card2:#f5f7ff; --border:#d0d8ee;
+  --g:#00c060; --b:#0099e6; --r:#e8404e; --y:#e09900; --p:#8844cc; --o:#e07020;
+  --txt:#111827; --txt2:#4b5680; --txt3:#94a3c0;
+  --shell-bg:#f0f4ff; --shell-wrap-bg:radial-gradient(ellipse at 30% 20%,#dde8ff 0%,#c8d4f0 60%);
+  --shell-border:#c0cce8; --shell-ring1:#e0e8f8; --shell-ring2:#ccd8f0;
+  --tabbar-bg:rgba(255,255,255,.96);
+  --grad-g-from:#e0f7ec; --grad-b-from:#e0f0fc; --grad-r-from:#fce8ea;
+  --grad-y-from:#fef8e0; --grad-o-from:#fef0e0; --grad-p-from:#f0e8fc;
+}
+
+/* Smooth theme transition on everything */
+*, *::before, *::after {
+  box-sizing:border-box; margin:0; padding:0;
+  -webkit-tap-highlight-color:transparent;
+  transition: background-color .3s ease, border-color .3s ease, color .3s ease, box-shadow .3s ease;
+}
+/* Prevent transition on transforms/opacity to keep animations snappy */
+.screen, .sheet, .notif-banner, .btn, .tab-item, .ex-check, .toggle::after, .pb-fill, .pb-fill-thick { transition: none !important; }
+.screen { transition: opacity .25s ease, transform .25s ease !important; }
+.pb-fill { transition: width .7s cubic-bezier(.4,0,.2,1) !important; }
+.pb-fill-thick { transition: width .7s !important; }
+.btn { transition: background-color .15s, transform .15s !important; }
+.tab-item { transition: transform .15s !important; }
+.ex-check { transition: all .2s !important; }
+.toggle::after { transition: transform .2s !important; }
 html,body{width:100%;height:100%;font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:#060810;overflow:hidden}
+[data-theme="light"] body { background:#c8d4f0; }
 
 /* ── SHELL ── */
-.shell-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:radial-gradient(ellipse at 30% 20%,#1a1060 0%,#060810 60%)}
-.shell{width:390px;height:844px;border-radius:54px;background:#0c0f1a;border:1.5px solid #2a2a4a;box-shadow:0 0 0 6px #0a0a18,0 0 0 7px #1e1e36,0 60px 120px rgba(0,0,0,.8),inset 0 0 0 1px rgba(255,255,255,.04);position:relative;overflow:hidden;flex-shrink:0}
-.shell::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:120px;height:34px;background:#07090f;border-radius:20px;z-index:9999}
-.shell::after{content:'';position:absolute;right:-8px;top:140px;width:4px;height:80px;background:#1e1e36;border-radius:2px;box-shadow:0 100px 0 #1e1e36,0 -100px 0 #1e1e36}
+.shell-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:var(--shell-wrap-bg)}
+.shell{width:390px;height:844px;border-radius:54px;background:var(--shell-bg);border:1.5px solid var(--shell-border);box-shadow:0 0 0 6px var(--shell-ring1),0 0 0 7px var(--shell-ring2),0 60px 120px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.06);position:relative;overflow:hidden;flex-shrink:0}
+.shell::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:120px;height:34px;background:var(--bg2);border-radius:20px;z-index:9999}
+.shell::after{content:'';position:absolute;right:-8px;top:140px;width:4px;height:80px;background:var(--shell-ring2);border-radius:2px;box-shadow:0 100px 0 var(--shell-ring2),0 -100px 0 var(--shell-ring2)}
 @media(max-width:430px){.shell-wrap{padding:0;background:var(--bg);min-height:100vh;align-items:flex-start}.shell{width:100%;height:100vh;border-radius:0;border:none;box-shadow:none}.shell::before,.shell::after{display:none}}
 
 /* ── APP CHROME ── */
@@ -31,7 +67,7 @@ html,body{width:100%;height:100%;font-family:'Plus Jakarta Sans',-apple-system,s
 .screens{flex:1;overflow:hidden;position:relative}
 
 /* ── TAB BAR ── */
-.tabbar{height:80px;flex-shrink:0;background:rgba(18,23,42,.96);border-top:1px solid var(--border);display:flex;align-items:flex-start;padding-top:10px;backdrop-filter:blur(20px);position:relative;z-index:50}
+.tabbar{height:80px;flex-shrink:0;background:var(--tabbar-bg);border-top:1px solid var(--border);display:flex;align-items:flex-start;padding-top:10px;backdrop-filter:blur(20px);position:relative;z-index:50}
 .tab-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 0;transition:transform .15s;user-select:none}
 .tab-item:active{transform:scale(.9)}
 .tab-icon{font-size:20px;transition:all .2s;position:relative}
@@ -50,12 +86,12 @@ html,body{width:100%;height:100%;font-family:'Plus Jakarta Sans',-apple-system,s
 /* ── CARDS ── */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r16);padding:16px}
 .card+.card,.card+.hstack,.hstack+.card{margin-top:12px}
-.card-grad-g{background:linear-gradient(135deg,#0a2a1e 0%,var(--card) 60%);border-color:rgba(5,232,122,.2)}
-.card-grad-b{background:linear-gradient(135deg,#0a1e3a 0%,var(--card) 60%);border-color:rgba(56,182,255,.2)}
-.card-grad-r{background:linear-gradient(135deg,#2a0a14 0%,var(--card) 60%);border-color:rgba(255,95,109,.2)}
-.card-grad-y{background:linear-gradient(135deg,#2a1e0a 0%,var(--card) 60%);border-color:rgba(255,204,68,.2)}
-.card-grad-o{background:linear-gradient(135deg,#2a1a0a 0%,var(--card) 60%);border-color:rgba(255,154,60,.2)}
-.card-grad-p{background:linear-gradient(135deg,#1e0a2a 0%,var(--card) 60%);border-color:rgba(181,123,238,.2)}
+.card-grad-g{background:linear-gradient(135deg,var(--grad-g-from) 0%,var(--card) 60%);border-color:rgba(5,232,122,.2)}
+.card-grad-b{background:linear-gradient(135deg,var(--grad-b-from) 0%,var(--card) 60%);border-color:rgba(56,182,255,.2)}
+.card-grad-r{background:linear-gradient(135deg,var(--grad-r-from) 0%,var(--card) 60%);border-color:rgba(255,95,109,.2)}
+.card-grad-y{background:linear-gradient(135deg,var(--grad-y-from) 0%,var(--card) 60%);border-color:rgba(255,204,68,.2)}
+.card-grad-o{background:linear-gradient(135deg,var(--grad-o-from) 0%,var(--card) 60%);border-color:rgba(255,154,60,.2)}
+.card-grad-p{background:linear-gradient(135deg,var(--grad-p-from) 0%,var(--card) 60%);border-color:rgba(181,123,238,.2)}
 .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .card-title{font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.8px}
 
@@ -128,7 +164,7 @@ html,body{width:100%;height:100%;font-family:'Plus Jakarta Sans',-apple-system,s
 .chip-y{background:rgba(255,204,68,.15);color:var(--y)}
 .chip-p{background:rgba(181,123,238,.15);color:var(--p)}
 .chip-o{background:rgba(255,154,60,.15);color:var(--o)}
-.chip-gray{background:rgba(255,255,255,.07);color:var(--txt2)}
+.chip-gray{background:rgba(128,128,128,.12);color:var(--txt2)}
 
 /* ── FORMS ── */
 .form-field{margin-bottom:14px}
@@ -280,6 +316,7 @@ canvas{width:100%!important}
         </div>
         <div class="flex gap8 fac">
           <div class="notif-dot hidden" id="homeBell"></div>
+          <div style="font-size:20px;cursor:pointer" onclick="quickToggleTheme()" id="themeQuickBtn" title="Toggle theme">🌙</div>
           <div style="font-size:24px;cursor:pointer" onclick="showTab('notify')">🔔</div>
           <div style="font-size:24px;cursor:pointer" onclick="showTab('profile')">👤</div>
         </div>
@@ -657,6 +694,21 @@ canvas{width:100%!important}
         <div class="text-center" style="flex:1"><div class="fs11 txt2">BMI</div><div class="fw7 color-y mt4" id="profBmi">—</div></div>
       </div>
     </div>
+    <!-- Theme Toggle -->
+    <div class="card mb12">
+      <div class="card-header"><span class="card-title">Appearance</span></div>
+      <div class="flex gap8" id="themeSelector">
+        <div class="theme-btn" id="themeDark" onclick="setTheme('dark')" style="flex:1;border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;border:2px solid var(--border);background:var(--bg3);transition:all .2s">
+          <div style="font-size:26px;margin-bottom:6px">🌙</div>
+          <div style="font-size:12px;font-weight:700;color:var(--txt2)">Dark</div>
+        </div>
+        <div class="theme-btn" id="themeLight" onclick="setTheme('light')" style="flex:1;border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;border:2px solid var(--border);background:var(--bg3);transition:all .2s">
+          <div style="font-size:26px;margin-bottom:6px">☀️</div>
+          <div style="font-size:12px;font-weight:700;color:var(--txt2)">Light</div>
+        </div>
+      </div>
+    </div>
+
     <div class="section-title mb12">Edit Profile</div>
     <div class="form-grid">
       <div class="form-field"><label class="form-label">Name</label><input class="form-input" id="setName" type="text"/></div>
@@ -1636,14 +1688,17 @@ function renderProgress(){
 }
 function renderProgressCharts(){
   const logs=DB.get('wLogs')||[];const calH=DB.get('calHist')||{};const p=getProfile();
-  const cfg={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a89aa',font:{size:9},maxRotation:0},grid:{color:'#1a2038'}},y:{ticks:{color:'#7a89aa',font:{size:9}},grid:{color:'#1a2038'}}}};
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  const tickColor = isLight ? '#4b5680' : '#7a89aa';
+  const gridColor = isLight ? '#d8e0f0' : '#1a2038';
+  const cfg={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:tickColor,font:{size:9},maxRotation:0},grid:{color:gridColor}},y:{ticks:{color:tickColor,font:{size:9}},grid:{color:gridColor}}}};
   if(wChart)wChart.destroy();
   const wCtx=document.getElementById('mWeightChart').getContext('2d');
-  wChart=new Chart(wCtx,{type:'line',data:{labels:logs.length?logs.map(l=>l.date.slice(5)):['—'],datasets:[{data:logs.map(l=>l.weight),borderColor:'#05e87a',backgroundColor:'rgba(5,232,122,.08)',fill:true,tension:.4,pointBackgroundColor:'#05e87a',pointRadius:3}]},options:cfg});
+  wChart=new Chart(wCtx,{type:'line',data:{labels:logs.length?logs.map(l=>l.date.slice(5)):['—'],datasets:[{data:logs.map(l=>l.weight),borderColor:'var(--g)',borderColor:isLight?'#00c060':'#05e87a',backgroundColor:isLight?'rgba(0,192,96,.1)':'rgba(5,232,122,.08)',fill:true,tension:.4,pointBackgroundColor:isLight?'#00c060':'#05e87a',pointRadius:3}]},options:cfg});
   if(cChart)cChart.destroy();
   const cCtx=document.getElementById('mCalChart').getContext('2d');
   const cE=Object.entries(calH).sort((a,b)=>a[0].localeCompare(b[0])).slice(-10);
-  cChart=new Chart(cCtx,{type:'bar',data:{labels:cE.length?cE.map(e=>e[0].slice(5)):['—'],datasets:[{data:cE.length?cE.map(e=>e[1]):[0],backgroundColor:'rgba(56,182,255,.6)',borderRadius:4},{data:cE.length?cE.map(()=>p.calorieTarget||2000):[2000],type:'line',borderColor:'rgba(255,204,68,.6)',borderDash:[4,4],pointRadius:0,fill:false}]},options:cfg});
+  cChart=new Chart(cCtx,{type:'bar',data:{labels:cE.length?cE.map(e=>e[0].slice(5)):['—'],datasets:[{data:cE.length?cE.map(e=>e[1]):[0],backgroundColor:isLight?'rgba(0,153,230,.5)':'rgba(56,182,255,.6)',borderRadius:4},{data:cE.length?cE.map(()=>p.calorieTarget||2000):[2000],type:'line',borderColor:isLight?'rgba(224,153,0,.8)':'rgba(255,204,68,.6)',borderDash:[4,4],pointRadius:0,fill:false}]},options:cfg});
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1682,9 +1737,38 @@ function updateHomeDash(){
   renderNextReminder();
 }
 
+function quickToggleTheme() {
+  const current = DB.get('theme') || 'dark';
+  setTheme(current === 'dark' ? 'light' : 'dark');
+  const btn = document.getElementById('themeQuickBtn');
+  if (btn) btn.textContent = (DB.get('theme') === 'light') ? '🌙' : '☀️';
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// PROFILE / SETTINGS
+// THEME
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function setTheme(mode) {
+  DB.set('theme', mode);
+  document.documentElement.setAttribute('data-theme', mode === 'light' ? 'light' : '');
+  // Update selection UI
+  const dark = document.getElementById('themeDark');
+  const light = document.getElementById('themeLight');
+  if (dark && light) {
+    dark.style.borderColor = mode === 'dark' ? 'var(--g)' : 'var(--border)';
+    dark.style.background  = mode === 'dark' ? 'rgba(5,232,122,.12)' : 'var(--bg3)';
+    light.style.borderColor = mode === 'light' ? 'var(--g)' : 'var(--border)';
+    light.style.background  = mode === 'light' ? 'rgba(5,232,122,.12)' : 'var(--bg3)';
+  }
+  // Rebuild charts with new colors
+  if (typeof renderProgressCharts === 'function') { try { renderProgressCharts(); } catch(e){} }
+  toast(mode === 'light' ? '☀️ Light mode on!' : '🌙 Dark mode on!');
+}
+
+function applyThemeOnLoad() {
+  const saved = DB.get('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : '');
+}
+applyThemeOnLoad();
 function renderProfile(){
   const p=getProfile();
   document.getElementById('profName').textContent=p.name||'—';
@@ -1696,6 +1780,16 @@ function renderProfile(){
   document.getElementById('setWeight').value=p.weight||'';document.getElementById('setHeight').value=p.height||'';
   document.getElementById('setGoal').value=p.goalWeight||'';document.getElementById('setLevel').value=p.fitnessLevel||'beginner';
   document.getElementById('setCalTarget').value=p.calorieTarget||calcTarget(p);
+  // refresh theme buttons
+  const mode = DB.get('theme') || 'dark';
+  const dark = document.getElementById('themeDark');
+  const light = document.getElementById('themeLight');
+  if (dark && light) {
+    dark.style.borderColor  = mode === 'dark'  ? 'var(--g)' : 'var(--border)';
+    dark.style.background   = mode === 'dark'  ? 'rgba(5,232,122,.12)' : 'var(--bg3)';
+    light.style.borderColor = mode === 'light' ? 'var(--g)' : 'var(--border)';
+    light.style.background  = mode === 'light' ? 'rgba(5,232,122,.12)' : 'var(--bg3)';
+  }
 }
 function saveSettings(){
   const p={name:document.getElementById('setName').value.trim(),age:+document.getElementById('setAge').value,weight:+document.getElementById('setWeight').value,height:+document.getElementById('setHeight').value,goalWeight:+document.getElementById('setGoal').value,fitnessLevel:document.getElementById('setLevel').value,calorieTarget:+document.getElementById('setCalTarget').value||0,startWeight:getProfile().startWeight,primaryGoal:getProfile().primaryGoal};
@@ -1766,6 +1860,9 @@ function loadApp(){
   if(fs.running&&fs.startTs){startFastTimer();document.getElementById('fastToggleBtn').textContent='⏹ Stop Fast';document.getElementById('fastStatusChip').textContent='ACTIVE';document.getElementById('fastStatusChip').className='chip chip-o';}
   scheduleChecks();
   if(Notification.permission==='granted'){document.getElementById('notifPermChip').textContent='On';document.getElementById('notifPermChip').className='chip chip-g';document.getElementById('notifPermBtn').textContent='✓ Enabled';document.getElementById('notifPermBtn').disabled=true;}
+  // set quick theme button icon
+  const btn = document.getElementById('themeQuickBtn');
+  if (btn) btn.textContent = (DB.get('theme') === 'light') ? '🌙' : '☀️';
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
